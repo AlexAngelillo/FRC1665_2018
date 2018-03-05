@@ -19,9 +19,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
+	private static final String doNothingAuto = "Do Nothing";
+	private static final String driveForwardAuto = "Drive Forward";
+	private static final String driveFarAuto = "Drive Forward (far)";
+	private static final String dropBoxInScaleAuto = "Drop Box In Scale";
+	private String autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	private MyRobot robot;
 
@@ -31,8 +33,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
+		m_chooser.addDefault("Do Nothing", doNothingAuto);
+		m_chooser.addObject("Drive Forward", driveForwardAuto);
+		m_chooser.addObject("Drive Foward (far)", driveFarAuto);
+		m_chooser.addObject("Drop Box In Scale", dropBoxInScaleAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		robot = new MyRobot();
 	}
@@ -50,27 +54,45 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);
+		autoSelected = m_chooser.getSelected();
+//		autoSelected = SmartDashboard.getString("Auto Selector", doNothingAuto);
+		System.out.println("Auto selected: " + autoSelected);
 	}
 
+	
 	
 	/**
 	 * This function is called periodically during autonomous.
 	 */
 	@Override
-	public void autonomousPeriodic() {
-		switch (m_autoSelected) {
-			case kCustomAuto:
+	public void autonomousPeriodic() {	
+		robot.drivePastLine(3);
+		
+		/*
+		switch (autoSelected) {
+			case doNothingAuto:
 				// Put custom auto code here
+				System.out.println("NOTHING");
 				break;
-			case kDefaultAuto:
+			case driveForwardAuto:
+				robot.drivePastLine(3);
+				System.out.println("Drive Forward");
+				break;
+			case driveFarAuto:
+				System.out.println("Drive Far");
+//				robot.drivePastLine(5);
+				break;
+			case dropBoxInScaleAuto:
+				System.out.println("Drop Box in Scale");
+				break;
 			default:
+				System.out.println("Default");
 				// Put default auto code here
 				break;
 		}
+		
+		*/
+		
 	}
 
 	/**
